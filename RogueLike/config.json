@@ -1,0 +1,39 @@
+{
+  "characters": {
+    "Knight": {
+      "symbol": 75,
+      "max_hp": 15,
+      "damage": 1
+    },
+    "Princess": {
+      "symbol": 80,
+      "max_hp": 1,
+      "damage": 0
+    },
+    "Zombie": {
+      "symbol": 90,
+      "max_hp": 3,
+      "damage": 1
+    },
+    "Dragon": {
+      "symbol": 68,
+      "max_hp": 15,
+      "damage": 2
+    },
+    "Wall": {
+      "symbol": 35,
+      "max_hp": 1,
+      "damage": 0
+    },
+    "AidKit": {
+      "symbol": 43,
+      "max_hp": 1,
+      "damage": -15
+    },
+    "Fireball": {
+      "symbol": 64,
+      "max_hp": 1,
+      "damage": 10
+    }
+  }
+}
