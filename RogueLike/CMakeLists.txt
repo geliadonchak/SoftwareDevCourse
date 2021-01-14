@@ -8,6 +8,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 add_executable(roguelike main.cpp
         characters.cpp
         characters.h
+        map.cpp
+        map.h
         utils/config.cpp
         utils/config.h
         utils/types.h

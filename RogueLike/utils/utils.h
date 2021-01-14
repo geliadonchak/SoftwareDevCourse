@@ -11,6 +11,6 @@ int get_random_int(int from, int to) {
 
     std::random_device rd;
     std::mt19937 mt(rd());
-    std::uniform_int_distribution<int> int_distribution(from,to);
+    std::uniform_int_distribution<int> int_distribution(from, to);
     return int_distribution(mt);
 }
