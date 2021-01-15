@@ -49,7 +49,7 @@ void Character::max_hp(hp_t amount) {
 }
 
 hp_t Character::damage() const {
-    return static_cast<hp_t>(get_random_int(0, damage_));
+    return static_cast<hp_t>(roguelike::rand_int(0, damage_));
 }
 
 void Character::damage(hp_t amount) {
@@ -238,7 +238,7 @@ Dragon::Dragon(map_size_t x, map_size_t y) {
 Dragon::Dragon(map_point_t pos) : Dragon(pos.x, pos.y) {}
 
 void Dragon::tick(map_point_t hero_pos) {
-    auto fireball_chance = get_random_int(1, 10) == 1;
+    auto fireball_chance = roguelike::rand_int(1, 10) == 1;
     if (fireball_chance) {
         if (hero_pos.x == position_.x) {
             if (hero_pos.y > position_.y) {

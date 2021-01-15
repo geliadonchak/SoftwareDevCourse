@@ -1,15 +1,5 @@
 #include "graphics.h"
 
-KEY(NOTHING, -1);
-KEY(ARROW_UP, 'w');
-KEY(ARROW_LEFT, 'a');
-KEY(ARROW_DOWN, 's');
-KEY(ARROW_RIGHT, 'd');
-KEY(THROW_UP, 'i');
-KEY(THROW_LEFT, 'j');
-KEY(THROW_DOWN, 'k');
-KEY(THROW_RIGHT, 'l');
-
 namespace graphics {
 
 std::vector<std::string> buffer;

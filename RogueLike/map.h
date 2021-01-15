@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include "utils/utils.h"
 #include "utils/types.h"
 #include "characters.h"
 

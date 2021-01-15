@@ -2,6 +2,8 @@
 
 #include "../map.h"
 
+namespace scenes {
+
 class base_scene {
   public:
     virtual void input(int command) = 0;
@@ -15,3 +17,5 @@ class base_scene {
     bool finished_ = false;
     std::shared_ptr<base_scene> next_scene_;
 };
+
+}

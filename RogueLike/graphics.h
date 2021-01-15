@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include "utils/types.h"
-#include "game.h"
 #include "utils/keys.h"
+#include "game.h"
 
 namespace graphics {
 

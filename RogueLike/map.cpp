@@ -1,4 +1,5 @@
 #include "map.h"
+#include "utils/utils.h"
 
 map::map(map_size_t width, map_size_t height) {
     width_ = width;
@@ -36,45 +37,46 @@ void map::regenerate() {
 map_container_t map::generate(map_size_t width, map_size_t height) {
     using std::vector;
     typedef enum {
-        floor_ = 0,
+        floor_,
         wall_
     } map_block;
 
     map_container_t result;
     auto blocks = vector<vector<map_block>>(height, vector<map_block>(width, map_block::floor_));
 
-    // draw borders of the box
-    for (map_size_t i = 0; i < width; ++i) {
+    // Draw borders of the box
+    for (map_size_t i = 0; i < width; i++) {
         blocks[0][i] = map_block::wall_;
         blocks[height-1][i] = map_block::wall_;
     }
-    for (map_size_t i = 0; i < height; ++i) {
+    for (map_size_t i = 0; i < height; i++) {
         blocks[i][0] = map_block::wall_;
         blocks[i][width-1] = map_block::wall_;
     }
 
-    // spawn the player somewhere
+    // Spawn the player somewhere
     map_point_t pos_hero{}, pos_princess{};
-    pos_hero.x = static_cast<map_size_t>(get_random_int(1, width - 2));
-    pos_hero.y = static_cast<map_size_t>(get_random_int(1, height - 2));
-    pos_princess.x = static_cast<map_size_t>(get_random_int(1, width - 2));
-    pos_princess.y = static_cast<map_size_t>(get_random_int(1, height - 2));
+    pos_hero.x = static_cast<map_size_t>(roguelike::rand_int(1, width - 2));
+    pos_hero.y = static_cast<map_size_t>(roguelike::rand_int(1, height - 2));
+    pos_princess.x = static_cast<map_size_t>(roguelike::rand_int(1, width - 2));
+    pos_princess.y = static_cast<map_size_t>(roguelike::rand_int(1, height - 2));
 
     result.hero = std::make_shared<characters::Knight>(pos_hero);
     result.characters.push_back(std::make_shared<characters::Princess>(pos_princess));
-    for (map_size_t i = 0; i < height; ++i) {
-        for (map_size_t j = 0; j < width; ++j) {
+
+    for (map_size_t i = 0; i < height; i++) {
+        for (map_size_t j = 0; j < width; j++) {
             if (blocks[i][j] == map_block::wall_) {
                 result.characters.push_back(std::make_shared<characters::Wall>(j, i));
             }
         }
     }
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; i++) {
         map_point_t pos_zombie{};
-        pos_zombie.x = static_cast<map_size_t>(get_random_int(1, width - 2));
-        pos_zombie.y = static_cast<map_size_t>(get_random_int(1, height - 2));
-        auto char_sel = static_cast<map_size_t>(get_random_int(1, 3));
+        pos_zombie.x = static_cast<map_size_t>(roguelike::rand_int(1, width - 2));
+        pos_zombie.y = static_cast<map_size_t>(roguelike::rand_int(1, height - 2));
+        auto char_sel = static_cast<map_size_t>(roguelike::rand_int(1, 3));
         switch (char_sel) {
             case 1:
                 result.characters.push_back(std::make_shared<characters::Zombie>(pos_zombie));
