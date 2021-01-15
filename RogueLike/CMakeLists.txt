@@ -19,4 +19,4 @@ add_executable(roguelike main.cpp
         utils/types.h
         utils/utils.h
         external/json.h
-        scenes/base_scene.h scenes/base_scene.cpp)
+        scenes/base_scene.h scenes/base_scene.cpp visitors/wall_visitor.h visitors/wall_visitor.cpp visitors/win_condition_visitor.h visitors/win_condition_visitor.cpp)

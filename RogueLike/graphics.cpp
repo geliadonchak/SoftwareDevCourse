@@ -10,6 +10,8 @@ KEY(THROW_LEFT, 'j');
 KEY(THROW_DOWN, 'k');
 KEY(THROW_RIGHT, 'l');
 
+namespace graphics {
+
 std::vector<std::string> buffer;
 
 void init() {
@@ -71,4 +73,6 @@ void write_string(const std::string &str, int x, int y) {
 
 void draw_state(game &state) {
     state.render();
+}
+
 }

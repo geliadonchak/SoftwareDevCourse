@@ -8,6 +8,8 @@
 #include "game.h"
 #include "utils/keys.h"
 
+namespace graphics {
+
 void init();
 
 void clear_buffer();
@@ -28,3 +30,5 @@ void input(int &key_code);
 void render_frame();
 
 void draw_state(game &state);
+
+}

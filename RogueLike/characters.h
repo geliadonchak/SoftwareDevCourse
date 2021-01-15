@@ -8,6 +8,7 @@
 #include "utils/types.h"
 
 namespace characters {
+
 class Character;
 class Monster;
 class Zombie;
@@ -266,7 +267,7 @@ class Fireball : public Projectile {
   public:
     Fireball(map_size_t x, map_size_t y);
     Fireball(map_size_t x, map_size_t y, map_size_t dx, map_size_t dy);
-    Fireball(map_point_t pos);
+    explicit Fireball(map_point_t pos);
 
     void accept(visitors::base_visitor &v, Character &with) override;
     void accept(visitors::base_visitor &v, Knight &with) override;
@@ -277,4 +278,5 @@ class Fireball : public Projectile {
     void accept(visitors::base_visitor &v, AidKit &with) override;
     void accept(visitors::base_visitor &v, Fireball &with) override;
 };
+
 }
