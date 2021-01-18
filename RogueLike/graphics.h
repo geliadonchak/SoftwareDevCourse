@@ -11,7 +11,6 @@ namespace graphics {
 
 void init();
 
-void clear_buffer();
 void clear_screen();
 
 void init_graphics();

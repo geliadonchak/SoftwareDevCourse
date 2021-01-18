@@ -17,10 +17,7 @@ class scene {
 
     bool finished() const;
 
-    std::shared_ptr<scene> next_scene() const;
-
     map_point_t offset() const;
-
   private:
     map map_;
     map_point_t hero_prev_pos_{};
@@ -28,7 +25,6 @@ class scene {
     bool key_pressed_;
     projectiles_container_t hero_projectiles_;
     bool finished_ = false;
-    std::shared_ptr<scene> next_scene_;
 
     void calc_offsets();
 };

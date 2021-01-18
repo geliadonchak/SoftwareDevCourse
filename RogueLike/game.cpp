@@ -1,7 +1,9 @@
 #include "game.h"
+#include "utils/config.h"
 
 game::game() {
-    current_scene_ = std::make_shared<scene::scene>(scene::scene(120, 120));
+    auto map = Config::get_map_parameters();
+    current_scene_ = std::make_shared<scene::scene>(scene::scene(map["width"], map["height"]));
     terminated_ = false;
 }
 
@@ -21,7 +23,7 @@ void game::tick() {
 
     current_scene_->tick();
     if (current_scene_->finished()) {
-        current_scene_ = current_scene_->next_scene();
+        current_scene_ = nullptr;
     }
 }
 

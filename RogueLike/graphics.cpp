@@ -1,4 +1,7 @@
 #include "graphics.h"
+#include "utils/config.h"
+
+#define REAL_TIME
 
 namespace graphics {
 
@@ -11,10 +14,6 @@ void init() {
     atexit(shutdown_graphics);
 }
 
-void clear_buffer() {
-    buffer.assign(24, std::string(80, ' '));
-}
-
 void clear_screen() {
     clear();
 }
@@ -22,11 +21,16 @@ void clear_screen() {
 void init_graphics() {
     initscr();
     getmaxyx(stdscr, h_, w_);
+
+    auto map = Config::get_map_parameters();
+    h_ = std::min(map["height"] + 1, h_);
+    w_ = std::min(map["width"], w_);
+
     noecho();
     curs_set(0);
     keypad(stdscr, true);
-#ifndef NO_REAL_TIME
-    timeout(200);
+#ifdef REAL_TIME
+    timeout(400);
 #endif
 }
 
@@ -52,7 +56,6 @@ void write_symbol(symbol_t symbol, int x, int y) {
 
 int input() {
     int c = getch();
-    c = getch();
     if (c == KEY_RESIZE) {
         getmaxyx(stdscr, h_, w_);
         return keys_enum::NOTHING;

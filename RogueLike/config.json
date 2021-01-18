@@ -1,4 +1,8 @@
 {
+  "map": {
+    "width": 75,
+    "height": 40
+  },
   "characters": {
     "Knight": {
       "symbol": 75,

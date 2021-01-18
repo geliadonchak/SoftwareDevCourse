@@ -4,6 +4,7 @@
 #include "visitors/wall_visitor.h"
 #include "visitors/attack_visitor.h"
 #include "visitors/win_condition_visitor.h"
+#include "utils/config.h"
 
 namespace scene {
 
@@ -31,7 +32,12 @@ void scene::input() {
     int command = graphics::input();
     auto &hero = map_.hero();
 
-    keys_enum cmd = keys_map.at(static_cast<symbol_t>(command));
+    if (keys_map.find(command) == keys_map.end()) {
+        key_pressed_ = false;
+        return;
+    }
+
+    keys_enum cmd = keys_map.at(command);
     int x_sign = (cmd == keys_enum::ARROW_LEFT || cmd == keys_enum::THROW_LEFT ? -1 : 1);
     int y_sign = (cmd == keys_enum::ARROW_UP || cmd == keys_enum::THROW_UP ? -1 : 1);
     switch (cmd) {
@@ -77,9 +83,6 @@ void scene::tick() {
     bool level_won = false;
     auto &characters = map_.characters();
     auto &hero = map_.hero();
-
-    // Check if a key was pressed because projectiles should move
-    // every tick and other mobs should move on each key press
 
     // Hero collisions
     if (key_pressed_) {
@@ -178,6 +181,7 @@ void scene::tick() {
     if (level_won) {
         auto hero_hp = hero->hp();
         map_.regenerate();
+        Config::level++;
         hero->hp(hero_hp);
     }
 
@@ -218,9 +222,14 @@ void scene::render() {
     auto h_pos = hero->pos();
     graphics::write_symbol(hero->symbol(), h_pos.x - x_start, h_pos.y - y_start);
 
-    std::stringstream ss;
-    ss << "HP: " << hero->hp() << "/" << hero->max_hp();
-    graphics::write_string(ss.str(), 0, graphics::height() - 1);
+    std::stringstream hp_stream;
+    hp_stream << "HP: " << hero->hp() << "/" << hero->max_hp();
+    graphics::write_string(hp_stream.str(), graphics::width() + 1, 0);
+
+    std::stringstream lvl_stream;
+    lvl_stream << "LVL: " << Config::level;
+    graphics::write_string(lvl_stream.str(), graphics::width() + 1, 1);
+
     graphics::render_frame();
 }
 
@@ -271,10 +280,6 @@ map_point_t scene::offset() const {
 
 bool scene::finished() const {
     return finished_;
-}
-
-std::shared_ptr<scene> scene::next_scene() const {
-    return next_scene_;
 }
 
 }
