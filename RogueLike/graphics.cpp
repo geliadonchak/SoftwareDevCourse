@@ -2,6 +2,8 @@
 
 namespace graphics {
 
+int w_, h_;
+
 std::vector<std::string> buffer;
 
 void init() {
@@ -14,55 +16,57 @@ void clear_buffer() {
 }
 
 void clear_screen() {
-    for (auto i = 0; i < buffer.size(); i++) {
-        std::cout << std::endl;
-    }
+    clear();
 }
 
 void init_graphics() {
-    clear_buffer();
+    initscr();
+    getmaxyx(stdscr, h_, w_);
+    noecho();
+    curs_set(0);
+    keypad(stdscr, true);
+#ifndef NO_REAL_TIME
+    timeout(200);
+#endif
 }
 
-void shutdown_graphics() {}
+void shutdown_graphics() {
+    curs_set(1);
+    endwin();
+    refresh();
+}
 
 int width() {
-    return buffer[0].size();
+    return w_;
 }
 
 int height() {
-    return buffer.size();
+    return h_;
 }
 
 void write_symbol(symbol_t symbol, int x, int y) {
-    if (y < 0 || y >= buffer.size()) return;
-    if (x < 0 || x >= buffer[y].size()) return;
-    buffer[y][x] = symbol;
+    if (y < 0 || y >= h_) return;
+    if (x < 0 || x >= w_) return;
+    mvaddch(y, x, symbol);
 }
 
-int get_input() {
-    int c = std::cin.get();
+int input() {
+    int c = getch();
+    c = getch();
+    if (c == KEY_RESIZE) {
+        getmaxyx(stdscr, h_, w_);
+        return keys_enum::NOTHING;
+    }
+
     return c;
 }
 
-void input(int &key_code) {
-    key_code = get_input();
-}
-
 void render_frame() {
-    for (const auto &row : buffer) {
-        std::cout << row << std::endl;
-    }
-    clear_buffer();
+    refresh();
 }
 
 void write_string(const std::string &str, int x, int y) {
-    for (auto c : str) {
-        write_symbol(c, x++, y);
-    }
-}
-
-void draw_state(game &state) {
-    state.render();
+    mvaddstr(y, x, str.c_str());
 }
 
 }

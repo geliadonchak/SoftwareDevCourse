@@ -1,3 +1,6 @@
+#ifndef TYPES_H
+#define TYPES_H
+
 #pragma once
 
 #include <cstdint>
@@ -18,3 +21,17 @@ struct map_point_t {
 // characters config
 typedef std::map<std::string, int> config_parameters_t;
 typedef std::map<std::string, config_parameters_t> config_t;
+
+enum keys_enum {
+    NOTHING,
+    ARROW_UP,
+    ARROW_DOWN,
+    ARROW_RIGHT,
+    ARROW_LEFT,
+    THROW_UP,
+    THROW_DOWN,
+    THROW_RIGHT,
+    THROW_LEFT
+};
+
+#endif // TYPES_H

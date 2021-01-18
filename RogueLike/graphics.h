@@ -3,10 +3,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <ncurses.h>
 
 #include "utils/types.h"
-#include "utils/keys.h"
-#include "game.h"
 
 namespace graphics {
 
@@ -24,11 +23,8 @@ int height();
 void write_symbol(symbol_t symbol, int x, int y);
 void write_string(const std::string &str, int x, int y);
 
-int get_input();
-void input(int &key_code);
+int input();
 
 void render_frame();
-
-void draw_state(game &state);
 
 }

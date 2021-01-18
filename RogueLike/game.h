@@ -1,16 +1,18 @@
 #pragma once
 
-#include "scenes/base_scene.h"
+#include "scene.h"
 
 class game {
   public:
-    explicit game(const std::shared_ptr<scenes::base_scene> &entry_point);
-    void input(int command);
+    explicit game();
+    void input();
     void tick();
-    void render();
+    void draw_scene();
     bool terminated() const;
 
+    void start();
+
   private:
-    std::shared_ptr<scenes::base_scene> current_scene_;
+    std::shared_ptr<scene::scene> current_scene_;
     bool terminated_;
 };
