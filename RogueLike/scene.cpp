@@ -26,7 +26,8 @@ void scene::input() {
         {'i', THROW_UP},
         {'j', THROW_LEFT},
         {'k', THROW_DOWN},
-        {'l', THROW_RIGHT}
+        {'l', THROW_RIGHT},
+        {' ', PAUSE},
     };
 
     int command = graphics::input();
@@ -67,6 +68,8 @@ void scene::input() {
 
             break;
         }
+        case keys_enum::PAUSE:
+            is_paused_ = !is_paused_;
         default: break;
     }
 
@@ -80,6 +83,11 @@ void scene::input() {
 }
 
 void scene::tick() {
+    if (is_paused_) {
+        // todo draw "PAUSE" string in center of map
+        return;
+    }
+
     bool level_won = false;
     auto &characters = map_.characters();
     auto &hero = map_.hero();
@@ -276,6 +284,10 @@ void scene::calc_offsets() {
 
 map_point_t scene::offset() const {
     return map_point_t{offset_x_, offset_y_};
+}
+
+void scene::draw_pause() {
+
 }
 
 bool scene::finished() const {

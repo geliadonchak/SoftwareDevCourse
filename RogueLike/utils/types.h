@@ -31,7 +31,8 @@ enum keys_enum {
     THROW_UP,
     THROW_DOWN,
     THROW_RIGHT,
-    THROW_LEFT
+    THROW_LEFT,
+    PAUSE
 };
 
 #endif // TYPES_H

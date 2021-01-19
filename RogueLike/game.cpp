@@ -23,6 +23,7 @@ void game::tick() {
 
     current_scene_->tick();
     if (current_scene_->finished()) {
+        // todo fix terminal after game
         current_scene_ = nullptr;
     }
 }

@@ -21,10 +21,14 @@ class map {
 
     void regenerate();
 
-    static map_container_t generate(map_size_t width, map_size_t height);
+    map_container_t generate(map_size_t width, map_size_t height);
+    map_point_t generate_objects_pos(map_size_t width, map_size_t height);
+
   private:
     map_size_t width_;
     map_size_t height_;
     std::shared_ptr<characters::Character> hero_;
     characters_container_t characters_;
+
+    bool is_point_empty(map_size_t x, map_size_t y);
 };

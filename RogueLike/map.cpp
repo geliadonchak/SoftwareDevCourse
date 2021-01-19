@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <vector>
 #include "map.h"
 #include "utils/utils.h"
 
@@ -33,6 +34,28 @@ void map::regenerate() {
     characters_.clear();
     hero_ = container.hero;
     characters_ = container.characters;
+}
+
+bool map::is_point_empty(map_size_t x, map_size_t y)  {
+    for (const auto& obj : characters_) {
+        if (obj->pos().x == x && obj->pos().y == y) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+map_point_t map::generate_objects_pos(map_size_t width, map_size_t height) {
+    map_point_t pos{};
+    pos.x = static_cast<map_size_t>(roguelike::rand_int(1, width - 2));
+    pos.y = static_cast<map_size_t>(roguelike::rand_int(1, height - 2));
+
+    if (!is_point_empty(pos.x, pos.y)) {
+        generate_objects_pos(width, height);
+    }
+
+    return pos;
 }
 
 map_container_t map::generate(map_size_t width, map_size_t height) {
@@ -73,21 +96,46 @@ map_container_t map::generate(map_size_t width, map_size_t height) {
         }
     }
 
-    for (int i = 0; i < 10; i++) {
-        map_point_t pos_zombie{};
-        pos_zombie.x = static_cast<map_size_t>(roguelike::rand_int(1, width - 2));
-        pos_zombie.y = static_cast<map_size_t>(roguelike::rand_int(1, height - 2));
-        auto char_sel = static_cast<map_size_t>(roguelike::rand_int(1, 3));
+    for (int i = 0; i < 15; i++) {
+        map_point_t pos_object{};
+        pos_object = generate_objects_pos(width, height);
+        auto char_sel = static_cast<map_size_t>(roguelike::rand_int(1, 6));
         switch (char_sel) {
             case 1:
-                result.characters.push_back(std::make_shared<characters::Zombie>(pos_zombie));
+                result.characters.push_back(std::make_shared<characters::Zombie>(pos_object));
                 break;
             case 2:
-                result.characters.push_back(std::make_shared<characters::Dragon>(pos_zombie));
+                result.characters.push_back(std::make_shared<characters::Dragon>(pos_object));
                 break;
             case 3:
-                result.characters.push_back(std::make_shared<characters::AidKit>(pos_zombie));
+                result.characters.push_back(std::make_shared<characters::AidKit>(pos_object));
                 break;
+            case 4:
+            case 5:
+            case 6: {
+                auto direction = static_cast<map_size_t>(roguelike::rand_int(0, 3));
+                auto length = static_cast<map_size_t>(roguelike::rand_int(3, 15));
+                result.characters.push_back(std::make_shared<characters::Wall>(pos_object));
+
+                std::vector<std::pair<int, int>> direction_deltas{
+                        {0,  1},
+                        {0,  -1},
+                        {1,  0},
+                        {-1, 0}
+                };
+
+                map_point_t wall_point{pos_object.x, pos_object.y};
+
+                for (int j = 0; j < length - 1; j++) {
+                    wall_point.x += direction_deltas[direction].first;
+                    wall_point.y += direction_deltas[direction].second;
+                    if (!is_point_empty(wall_point.x, wall_point.y)) {
+                        continue;
+                    }
+                    result.characters.push_back(std::make_shared<characters::Wall>(wall_point));
+                }
+                break;
+            }
             default:
                 break;
         }

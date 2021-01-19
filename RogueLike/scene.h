@@ -18,6 +18,9 @@ class scene {
     bool finished() const;
 
     map_point_t offset() const;
+
+    void draw_pause();
+
   private:
     map map_;
     map_point_t hero_prev_pos_{};
@@ -25,6 +28,7 @@ class scene {
     bool key_pressed_;
     projectiles_container_t hero_projectiles_;
     bool finished_ = false;
+    bool is_paused_ = false;
 
     void calc_offsets();
 };

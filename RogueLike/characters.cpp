@@ -95,6 +95,7 @@ bool Character::is_projectile() const {
 // ================ //
 
 void Monster::tick(map_point_t hero_pos) {
+    // todo make graph from map and make monsters smarter
     if (hero_pos.x > position_.x) {
         move(1, 0);
     } else if (hero_pos.x < position_.x) {
