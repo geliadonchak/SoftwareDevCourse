@@ -35,7 +35,7 @@
       "damage": -15
     },
     "Fireball": {
-      "symbol": 64,
+      "symbol": 42,
       "max_hp": 1,
       "damage": 10
     }

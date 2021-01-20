@@ -46,6 +46,10 @@ void scene::input() {
         case keys_enum::ARROW_LEFT:
         case keys_enum::ARROW_DOWN:
         case keys_enum::ARROW_UP: {
+            if (is_paused_) {
+                break;
+            }
+
             speed_t dx = x_sign * (cmd == keys_enum::ARROW_LEFT || cmd == keys_enum::ARROW_RIGHT);
             speed_t dy = y_sign * (cmd == keys_enum::ARROW_DOWN || cmd == keys_enum::ARROW_UP);
             hero->move(dx, dy);
@@ -56,6 +60,10 @@ void scene::input() {
         case keys_enum::THROW_DOWN:
         case keys_enum::THROW_LEFT:
         case keys_enum::THROW_RIGHT: {
+            if (is_paused_) {
+                break;
+            }
+
             speed_t dx = x_sign * (cmd == keys_enum::THROW_LEFT || cmd == keys_enum::THROW_RIGHT);
             speed_t dy = y_sign * (cmd == keys_enum::THROW_DOWN || cmd == keys_enum::THROW_UP);
 
@@ -70,6 +78,7 @@ void scene::input() {
         }
         case keys_enum::PAUSE:
             is_paused_ = !is_paused_;
+            break;
         default: break;
     }
 
@@ -84,7 +93,6 @@ void scene::input() {
 
 void scene::tick() {
     if (is_paused_) {
-        // todo draw "PAUSE" string in center of map
         return;
     }
 
@@ -238,6 +246,10 @@ void scene::render() {
     lvl_stream << "LVL: " << Config::level;
     graphics::write_string(lvl_stream.str(), graphics::width() + 1, 1);
 
+    if (is_paused_) {
+        draw_pause();
+    }
+
     graphics::render_frame();
 }
 
@@ -287,7 +299,11 @@ map_point_t scene::offset() const {
 }
 
 void scene::draw_pause() {
-
+    graphics::write_string("@@@    @    @ @   @@@   @@@", graphics::width() / 2 - 13, graphics::height() / 2 - 2);
+    graphics::write_string("@ @   @ @   @ @   @     @  ", graphics::width() / 2 - 13, graphics::height() / 2 - 1);
+    graphics::write_string("@@@   @@@   @ @    @    @@@", graphics::width() / 2 - 13, graphics::height() / 2);
+    graphics::write_string("@     @ @   @ @     @   @  ", graphics::width() / 2 - 13, graphics::height() / 2 + 1);
+    graphics::write_string("@     @ @    @    @@@   @@@", graphics::width() / 2 - 13, graphics::height() / 2 + 2);
 }
 
 bool scene::finished() const {
