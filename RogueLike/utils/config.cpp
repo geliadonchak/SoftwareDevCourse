@@ -27,6 +27,7 @@ void Config::init(const std::string& filename) {
     auto map = j["map"];
     Config::map_["width"] = map["width"];
     Config::map_["height"] = map["height"];
+    Config::map_["fog_radius"] = map["fog_radius"];
 }
 
 config_parameters_t Config::get_character_parameters(const std::string &character) {
