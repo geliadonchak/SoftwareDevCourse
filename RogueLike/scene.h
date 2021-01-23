@@ -19,7 +19,7 @@ class scene {
 
     map_point_t offset() const;
 
-    void draw_pause();
+    static void draw_pause();
 
   private:
     map map_;

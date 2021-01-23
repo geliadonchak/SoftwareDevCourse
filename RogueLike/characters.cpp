@@ -96,16 +96,43 @@ bool Character::is_projectile() const {
 
 void Monster::tick(map_point_t hero_pos) {
     // todo make graph from map and make monsters smarter
-    if (hero_pos.x > position_.x) {
-        move(1, 0);
-    } else if (hero_pos.x < position_.x) {
-        move(-1, 0);
-    } else {
-        if (hero_pos.y > position_.y) {
+
+    if (hero_pos.x > position_.x && hero_pos.y > position_.y) {
+        int direction = (roguelike::rand_int(0, 1));
+        if (direction) {
+            move(1, 0);
+        } else {
             move(0, 1);
-        } else if (hero_pos.y < position_.y) {
+        }
+    } else if (hero_pos.x < position_.x && hero_pos.y < position_.y) {
+        int direction = (roguelike::rand_int(0, 1));
+        if (direction) {
+            move(-1, 0);
+        } else {
             move(0, -1);
         }
+    } else if (hero_pos.x < position_.x && hero_pos.y > position_.y) {
+        int direction = (roguelike::rand_int(0, 1));
+        if (direction) {
+            move(-1, 0);
+        } else {
+            move(0, 1);
+        }
+    } else if (hero_pos.x > position_.x && hero_pos.y < position_.y) {
+        int direction = (roguelike::rand_int(0, 1));
+        if (direction) {
+            move(1, 0);
+        } else {
+            move(0, -1);
+        }
+    } else if (hero_pos.x < position_.x && hero_pos.y == position_.y) {
+        move(-1, 0);
+    } else if (hero_pos.x > position_.x && hero_pos.y == position_.y) {
+        move(1, 0);
+    } else if (hero_pos.x == position_.x && hero_pos.y > position_.y) {
+        move(0, 1);
+    } else if (hero_pos.x == position_.x && hero_pos.y < position_.y) {
+        move(0, -1);
     }
 }
 
@@ -263,17 +290,8 @@ void Dragon::tick(map_point_t hero_pos) {
             }
         }
     }
-    if (hero_pos.x > position_.x) {
-        move(1, 0);
-    } else if (hero_pos.x < position_.x) {
-        move(-1, 0);
-    } else {
-        if (hero_pos.y > position_.y) {
-            move(0, 1);
-        } else if (hero_pos.y < position_.y) {
-            move(0, -1);
-        }
-    }
+
+    Monster::tick(hero_pos);
 }
 
 void Dragon::accept(visitors::base_visitor &v, Character &with) {
